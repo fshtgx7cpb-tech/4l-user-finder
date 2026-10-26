@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b10">
+<title>TikTok Clean Username Finder</title>
+<style>
+:root{color-scheme:dark;--bg:#090a0f;--panel:#14151d;--line:#2a2c38;--text:#f6f6fb;--muted:#a7a8b8;--pink:#fe2c55;--cyan:#25f4ee;--green:#57e6ad}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top right,#26101b 0,#0a0b11 45%,#090a0f 100%);color:var(--text);font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:22px 14px calc(34px + env(safe-area-inset-bottom))}
+header{display:flex;gap:13px;align-items:center;margin-bottom:20px}.logo{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--pink),#9d2cff);box-shadow:3px 3px 0 var(--cyan)}h1{font-size:clamp(24px,6vw,34px);line-height:1.12;margin:0}.subtitle{color:var(--muted);font-size:14px;margin-top:6px}
+.panel{background:linear-gradient(145deg,#171923,#11121a);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 12px 32px #0003}
+label{display:block;font-weight:700;margin-bottom:7px}.hint{font-size:12px;color:var(--muted);margin-top:6px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field select,.field input{width:100%;min-height:46px;background:#0b0c12;color:var(--text);border:1px solid #3a3b4a;border-radius:12px;padding:10px 12px;font-size:16px}.btn{border:0;border-radius:12px;padding:13px 15px;font-weight:800;font-size:15px;cursor:pointer}.primary{background:var(--pink);color:white;flex:1}.secondary{background:#252633;color:#f4f4fa;border:1px solid #424454}.buttons{display:flex;gap:10px;margin-top:14px}.btn:active,.smallbtn:active{transform:scale(.98)}.status{display:flex;align-items:center;gap:9px;font-weight:700}.dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #57e6ad77}
+.result-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.result-head h2{margin:0;font-size:20px}.count{font-size:12px;color:var(--muted)}.results{display:grid;grid-template-columns:1fr;gap:9px;margin-top:14px}.item{display:flex;align-items:center;gap:8px;padding:11px 12px;border:1px solid #303241;background:#0d0e15;border-radius:13px;min-width:0}.username{font-size:19px;font-weight:800;letter-spacing:.3px;flex:1;overflow-wrap:anywhere}.smallbtn{border:1px solid #454758;border-radius:9px;background:#232532;color:#f7f7fc;padding:8px 10px;font-weight:700;cursor:pointer;white-space:nowrap}.verify{background:#29121c;border-color:#673044;color:#ffb6c7}.empty{color:var(--muted);padding:18px 4px;text-align:center}.notice{font-size:13px;color:var(--muted)}.notice strong{color:#ffd17c}.footer{font-size:12px;color:var(--muted);text-align:center;padding:8px}.tag{display:inline-block;border:1px solid #494052;border-radius:99px;padding:3px 8px;font-size:11px;color:#ffc4d0;margin-left:5px}
+@media(min-width:560px){.results{grid-template-columns:1fr 1fr}.panel{padding:18px}}
+@media(max-width:390px){.controls{grid-template-columns:1fr}.buttons .btn{padding:12px 10px}.smallbtn{padding:8px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="logo">t.</div>
+  <div><h1>Clean Username Finder</h1><div class="subtitle">TikTok username ideas · 4–5 characters · made for Safari</div></div>
+</header>
+
+<section class="panel">
+  <div class="controls">
+    <div class="field"><label for="length">Username length</label><select id="length"><option value="4">4 characters</option><option value="5" selected>5 characters</option><option value="mix">Mix 4 + 5</option></select></div>
+    <div class="field"><label for="style">Style</label><select id="style"><option value="clean" selected>Clean & rare</option><option value="soft">Soft / minimal</option><option value="edgy">Edgy / sharp</option><option value="random">Random mix</option></select></div>
+    <div class="field"><label for="amount">Ideas per batch</label><select id="amount"><option>12</option><option selected>24</option><option>40</option></select></div>
+    <div class="field"><label for="seed">Optional letters</label><input id="seed" maxlength="5" placeholder="e.g. vex" autocapitalize="none" autocomplete="off"><div class="hint">Ideas can include these letters.</div></div>
+  </div>
+  <div class="buttons"><button id="generate" class="btn primary">✦ Generate usernames</button><button id="copyall" class="btn secondary" disabled>Copy all</button></div>
+  <div class="hint">Ideas are generated on your device. This site does not log in to TikTok or check availability automatically.</div>
+</section>
+
+<section class="panel">
+  <div class="status"><span class="dot"></span><span id="status">Ready to generate</span></div>
+  <div class="hint" id="statusHint">Tap generate to get a fresh batch of clean, short names.</div>
+</section>
+
+<section class="panel">
+  <div class="result-head"><h2>Your username ideas <span class="tag">4–5 chars</span></h2><span class="count" id="count">0 names</span></div>
+  <div class="notice" style="margin-top:7px">Tap <strong>Check on TikTok</strong> to open the profile URL, then use TikTok's profile edit screen to see whether the username can actually be saved. A profile not found does not prove availability.</div>
+  <div class="results" id="results"><div class="empty">Your generated names will appear here.</div></div>
+</section>
+
+<section class="panel">
+  <b>How to verify a name</b>
+  <ol class="notice">
+    <li>Copy a username you like.</li>
+    <li>Tap “Check on TikTok” to open its profile URL.</li>
+    <li>For the real check, go to your TikTok profile → Edit profile → Username. Try the name there; do not save unless you want to change it.</li>
+  </ol>
+  <div class="notice"><strong>Heads-up:</strong> TikTok may restrict names that look unused, and usernames can change between checks. No automatic claiming or bypassing protections is used.</div>
+</section>
+<div class="footer">Made for mobile · No account login required · Names are suggestions, not availability guarantees</div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let current = [];
+const sets = {
+ clean: ["v","x","z","q","r","n","k","l","y","a","e","o","i","u"],
+ soft: ["l","u","v","a","e","r","i","o","n","m","y","s"],
+ edgy: ["x","z","q","v","k","r","t","n","y","o","a","e"],
+ random: "abcdefghijklmnopqrstuvwxyz".split("")
+};
+const endings = {
+ clean: ["vx","qz","vex","zyn","xen","qvi","vyn","ziv","nox","ryx","xio","kiv","zay","vyn","qen","lyx"],
+ soft: ["luv","lia","lune","mii","nui","ari","evi","lil","mya","lumi","nox","sui","aya","eli"],
+ edgy: ["vex","zrx","kix","qyx","xrv","zyx","kzr","vyr","xen","rzk","qro","zok"],
+ random: ["lyx","vex","qvi","nox","ari","zup","kio","rux","mav","zen","xio","pax","yul"]
+};
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function makeName(len, style, seed) {
+  const chars = sets[style] || sets.clean;
+  const end = pick(endings[style] || endings.clean);
+  let name = "";
+  if (seed) {
+    const s = seed.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0, len);
+    name = s;
+  }
+  while(name.length < len) {
+    if (name.length === 0 && Math.random() < .65) name += pick(chars);
+    else if (name.length >= len-2 && end.length) name += pick(end.split(""));
+    else name += pick(chars);
+  }
+  name = name.slice(0,len);
+  // Avoid a leading/trailing period or underscore; generator currently uses letters only.
+  return name;
+}
+function generate() {
+  const mode = $("length").value, style = $("style").value, seed = $("seed").value.trim();
+  const amount = Number($("amount").value), seen = new Set();
+  let attempts=0;
+  while(seen.size < amount && attempts < amount*30) {
+    attempts++;
+    const len = mode === "mix" ? (Math.random()<.5?4:5) : Number(mode);
+    seen.add(makeName(len,style,seed));
+  }
+  current = [...seen];
+  $("count").textContent = current.length + " names";
+  $("status").textContent = "Generated " + current.length + " username ideas";
+  $("statusHint").textContent = "Choose a favorite, copy it, then verify it manually on TikTok.";
+  render();
+}
+function render() {
+  const box=$("results"); box.replaceChildren();
+  $("copyall").disabled = !current.length;
+  if(!current.length){box.innerHTML='<div class="empty">No ideas yet.</div>';return}
+  current.forEach(name=>{
+    const row=document.createElement("div"); row.className="item";
+    const text=document.createElement("span"); text.className="username"; text.textContent=name;
+    const copy=document.createElement("button"); copy.className="smallbtn"; copy.textContent="Copy";
+    copy.onclick=async()=>{try{await navigator.clipboard.writeText(name);copy.textContent="Copied!";setTimeout(()=>copy.textContent="Copy",1000)}catch{copy.textContent="Select name";}};
+    const check=document.createElement("button"); check.className="smallbtn verify"; check.textContent="Check on TikTok";
+    check.onclick=()=>window.open("https://www.tiktok.com/@"+encodeURIComponent(name),"_blank","noopener,noreferrer");
+    row.append(text,copy,check); box.append(row);
+  });
+}
+$("generate").onclick=generate;
+$("copyall").onclick=async()=>{try{await navigator.clipboard.writeText(current.join("\n"));$("copyall").textContent="Copied!";setTimeout(()=>$("copyall").textContent="Copy all",1000)}catch{$("copyall").textContent="Copy failed"}};
+</script>
+</body>
+</html>
